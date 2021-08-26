@@ -58,7 +58,7 @@ const char index_html[] PROGMEM = R"rawliteral(
 
 document.getElementById("temperature").innerHTML = (%TEMPERATURE%).toFixed(2);
 document.getElementById("humidity").innerHTML = (%HUMIDITY%).toFixed(2);
-document.getElementById("motion").innerHTML = %MOTION%;
+document.getElementById("motion").innerHTML = "%MOTION%";
 
 setInterval(function ( ) {
   var xhttp = new XMLHttpRequest();
@@ -70,7 +70,7 @@ setInterval(function ( ) {
   xhttp.open("GET", "/temperaturec", true);
   xhttp.send();
 }, 10000) ;
-/*setInterval(function ( ) {
+setInterval(function ( ) {
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
@@ -99,7 +99,7 @@ setInterval(function ( ) {
   };
   xhttp.open("GET", "/motion", true);
   xhttp.send();
-}, 1000 ) ;*/
+}, 1000 ) ;
 </script>
 </html>)rawliteral";
 
@@ -148,7 +148,8 @@ void setupWiFi() {
     request->send_P(200, "text/plain", String(humidity).c_str());
   });
   server.on("/motion", HTTP_GET, [](AsyncWebServerRequest *request){
-    request->send_P(200, "text/plain", String(isMotionDetected).c_str());
+    String result = isMotionDetected == 1 ? "tak" : "nie";
+    request->send_P(200, "text/plain", (result).c_str());
   });
   // Start server
   server.begin();
