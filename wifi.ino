@@ -1,5 +1,6 @@
 // Zamienień na&nbsp;własne dane WiFi
 const char* ssid = "Microlink.pl";
+//const char* ssid     = "ESP32-Access-Point";
 const char* password = "natalka1234";
 
 // Stworzenie obiektu AsyncWebServer na&nbsp;porcie 80
@@ -123,6 +124,14 @@ String processor(const String& var){
 }
 
 void setupWiFi() {
+//  // Connect to Wi-Fi network with SSID and password
+//  Serial.print("Setting AP (Access Point)…");
+//  // Remove the password parameter, if you want the AP (Access Point) to be open
+//  WiFi.softAP(ssid, password);
+//  IPAddress IP = WiFi.softAPIP();
+//  Serial.print("AP IP address: ");
+//  Serial.println(IP);
+  
   WiFi.begin(ssid, password);
   Serial.println("łączenie z WiFi");
   while (WiFi.status() != WL_CONNECTED) {
@@ -153,4 +162,46 @@ void setupWiFi() {
   });
   // Start server
   server.begin();
+}
+
+// -------- Bluetooth
+
+#if !defined(CONFIG_BT_ENABLED) || !defined(CONFIG_BLUEDROID_ENABLED)
+#error Bluetooth is not enabled! Please run `make menuconfig` to and enable it
+#endif
+
+BluetoothSerial SerialBT;
+String MACadd = "98:D3:C1:FD:B4:25";
+uint8_t address[6]  = {0x98, 0xD3, 0xC1, 0xFD, 0xB4, 0x25};
+String name = "HC-05";
+char *pin = "1234"; //<- standard pin would be provided by default
+bool connected;
+
+void setupBT() {
+  SerialBT.begin("ESP32test"); //Bluetooth device name
+}
+
+int start, end;
+String strTmp;
+// 000.00,000.00,000.00,tak
+void loopBT() {
+  while (SerialBT.available()) {
+    start = 0;
+    String received = SerialBT.readString();
+
+    end = received.indexOf(",");
+    temperatureC = received.substring(start,end);
+    
+    start = end+1;
+    end = received.indexOf(",", start);
+    temperature = received.substring(start,end);
+
+    start = end+1;
+    end = received.indexOf(",", start);
+    humidity = received.substring(start,end);
+
+    isMotionDetected = received[end+1] == 't' ? 1 : 0;
+    
+    displayPrintTHM();
+  }
 }
