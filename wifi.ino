@@ -1,7 +1,9 @@
 // Zamienień na&nbsp;własne dane WiFi
-const char* ssid = "Microlink.pl";
+//const char* ssid = "Microlink.pl";
 //const char* ssid     = "ESP32-Access-Point";
-const char* password = "natalka1234";
+//const char* password = "natalka1234";
+const char* ssid     = "ASUS";
+const char* password = "24365062";
 
 // Stworzenie obiektu AsyncWebServer na&nbsp;porcie 80
 AsyncWebServer server(80);
@@ -183,25 +185,26 @@ void setupBT() {
 
 int start, end;
 String strTmp;
-// 000.00,000.00,000.00,tak
+
+// ramka wygląda tak 000.00,000.00,000.00,tak; liczba,liczba,liczba,tak/nie;
 void loopBT() {
-  while (SerialBT.available()) {
-    start = 0;
-    String received = SerialBT.readString();
+  // odebranie ramki
+  if (SerialBT.available()) {
+    String data = "";
+    for(int i = 0; i < 25; i++){
+      char received = SerialBT.read();
+      Serial.print(received);
+      data = data+received;
+    }
+    Serial.println();
 
-    end = received.indexOf(",");
-    temperatureC = received.substring(start,end);
-    
-    start = end+1;
-    end = received.indexOf(",", start);
-    temperature = received.substring(start,end);
-
-    start = end+1;
-    end = received.indexOf(",", start);
-    humidity = received.substring(start,end);
-
-    isMotionDetected = received[end+1] == 't' ? 1 : 0;
-    
-    displayPrintTHM();
+    // zapisanie danych do zmiennych
+    temperatureC = data.substring(0,5);
+    temperature = data.substring(7,12);
+    humidity = data.substring(14,19);
+    isMotionDetected = data[21] == 't' ? 1 : 0;
   }
+
+  // pomijamy kolejne odebrane ramki, aby zawsze czytać tą najnowszą
+  while(SerialBT.available())SerialBT.read();
 }

@@ -8,7 +8,8 @@ void setup() {
 }
 
 void loop() {
-  serialPrintTHM();
   loopBT();
-  delay(5000); // czekamy 5 sekund
+  serialPrintTHM();
+  displayPrintTHM();
+  delay(1000); // czekamy 5 sekund
 }
