@@ -5,11 +5,14 @@ void setup() {
   setupDisplay();
   setupBT();
   setupWiFi();
+  setupMQTT();
 }
 
 void loop() {
   loopBT();
-  serialPrintTHM();
+//  serialPrintTHM();
   displayPrintTHM();
-  delay(1000); // czekamy 5 sekund
+  loopWiFi();
+  loopMQTT();
+  delay(1000); // czekamy 1 sekund
 }

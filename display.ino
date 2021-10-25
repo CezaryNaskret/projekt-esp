@@ -1,26 +1,3 @@
-// -------- wypisanie danych z czujników do monitora szeregowego
-
-void serialPrintTHM() {
-  // dane z czujnika temperatury
-  Serial.print("Zmierzona temperatura: ");
-  Serial.print(temperatureC);
-  Serial.println("°C");
-  
-  // dane z czujnika wilgotności
-  Serial.print("Zmierzona temperatura: ");
-  Serial.print(temperature);
-  Serial.println("°C");
-  Serial.print("Zmierzona wilgotność:  ");
-  Serial.print(humidity);
-  Serial.println("%");
-
-  // dane z czujnika ruchu
-  if (isMotionDetected == HIGH)
-    Serial.println("Wykryto ruch!");
-
-  Serial.println("----------------");
-}
-
 // -------- wyświetlacz
 
 // definiujemy piny ESP, do których podłączony jest wyświetlacz
@@ -57,13 +34,34 @@ void displayPrintTHM() {
   // move
   if (isMotionDetected == HIGH)  {
     display.println("Wykryto ruch!");
-    digitalWrite(outputPin, HIGH);
   }
   else {
     display.println("Nie wykryto ruchu!");
-    digitalWrite(outputPin, LOW);
   }
   
   display.display();
   display.clearDisplay();
+}
+
+// -------- wypisanie danych z czujników do monitora szeregowego
+
+void serialPrintTHM() {
+  // dane z czujnika temperatury
+  Serial.print("Zmierzona temperatura: ");
+  Serial.print(temperatureC);
+  Serial.println("°C");
+  
+  // dane z czujnika wilgotności
+  Serial.print("Zmierzona temperatura: ");
+  Serial.print(temperature);
+  Serial.println("°C");
+  Serial.print("Zmierzona wilgotność:  ");
+  Serial.print(humidity);
+  Serial.println("%");
+
+  // dane z czujnika ruchu
+  if (isMotionDetected == HIGH)
+    Serial.println("Wykryto ruch!");
+
+  Serial.println("----------------");
 }
