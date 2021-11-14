@@ -1,6 +1,8 @@
 // dane WiFi
-const char* ssid     = "Gott ist tot";
-const char* password = "8607jT:6";
+//const char* ssid     = "Gott ist tot";
+//const char* password = "8607jT:6";
+const char* ssid = "Microlink.pl";
+const char* password = "natalka1234";
 const char* serverName = "http://esp32-naskret-cezary.ugu.pl/post-data.php"; // domena ze ściażką URL
 String apiKeyValue = "tPmAT5Ab3j7F9"; // API key 
 

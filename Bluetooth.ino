@@ -22,11 +22,9 @@ void loopBT() {
     // odebranie 25 znaków
     for(int i = 0; i < 25; i++){
       char received = SerialBT.read();
-//      Serial.print(received);
+      Serial.print(received);
       data = data+received;
     }
-//    Serial.println();
-
     
     // zapisanie danych do zmiennych
     temperatureC = data.substring(0,5);
@@ -34,7 +32,11 @@ void loopBT() {
     humidity = data.substring(14,19);
     isMotionDetected = data[21] == 't' ? 1 : 0;
   }
-
+//  Serial.println("---");
   // pomijamy kolejne odebrane ramki, aby zawsze czytać tą najnowszą
-  while(SerialBT.available())SerialBT.read();
+  while(SerialBT.available()){
+    char received = SerialBT.read();
+//    Serial.print(received);
+  }
+  Serial.println();
 }
