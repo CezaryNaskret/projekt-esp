@@ -21,34 +21,33 @@ void setup() {
   pinMode(PIR_PIN, INPUT);
 }
 
-int stop = 10;
 float temperatureC = 0;
 float temperature = 0;
 float humidity = 0;
+float newTemperature = 0;
+float newHumidity = 0;
 char str[26];
 
 void loop() {
+  // pobranie danych z czujnika temperatury
+  tempSensor.requestTemperatures();
+  temperatureC = tempSensor.getTempCByIndex(0);
 
-  // pobranie danych z czujnika temperatury i wilgotności co 10 sek
-  if(stop == 10){
-    // pobranie danych z czujnika temperatury
-    tempSensor.requestTemperatures();
-    temperatureC = tempSensor.getTempCByIndex(0);
+  // pobranie danych z czujnika wilgotności
+  DHT.read11(DHT11_PIN);
+  temperature = DHT.temperature;
+  humidity = DHT.humidity;
 
-    // pobranie danych z czujnika wilgotności
-    DHT.read11(DHT11_PIN);
-    temperature = DHT.temperature;
-    humidity = DHT.humidity;
-
-    stop = 0;
+  if(newTemperature == 0 || temperature - newTemperature < 10){
+    newTemperature = temperature;
+    newHumidity = humidity;
   }
-  stop++;
 
   // wysłanie odczytu z czujników przez BT
   str[0] = '[';
   dtostrf(temperatureC, 6, 2, str+1); str[7] = ',';
-  dtostrf(temperature, 6, 2, str+8); str[14] = ',';
-  dtostrf(humidity, 6, 2, str+15); str[21] = ',';
+  dtostrf(newTemperature, 6, 2, str+8); str[14] = ',';
+  dtostrf(newHumidity, 6, 2, str+15); str[21] = ',';
   sprintf(str+22, "%s", digitalRead(PIR_PIN) == 1 ? "tak" : "nie");
   str[25] = ']';
   SerialTx(str);
