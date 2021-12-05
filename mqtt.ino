@@ -1,4 +1,3 @@
-// MQTT Broker
 const char *mqtt_broker = "broker.emqx.io";
 const char *topic1 = "alarm/esp32";
 const char *topic2 = "alarm/aplikacja1";

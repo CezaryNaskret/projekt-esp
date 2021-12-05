@@ -1,12 +1,7 @@
-// dane WiFi
-//const char* ssid     = "Gott ist tot";
-//const char* password = "8607jT:6";
-const char* ssid = "Microlink.pl";
-const char* password = "natalka1234";
-const char* serverName = "http://esp32-naskret-cezary.ugu.pl/post-data.php"; // domena ze ściażką URL
+const char* serverName = "http://esp32-naskret-cezary.ugu.pl/post-data.php"; // domain with URL path
 String apiKeyValue = "tPmAT5Ab3j7F9"; // API key 
 
-// Stworzenie obiektu AsyncWebServer na porcie 80
+// create an AsyncWebServer object on port 80
 AsyncWebServer server(80);
 
 void setupWiFi() {
@@ -18,10 +13,10 @@ void setupWiFi() {
   }
   Serial.println();
 
-  // Wyświetlanie lokalnego adresu IP ESP
+  // ESP local IP address display
   Serial.println(WiFi.localIP());
 
-  // Przekierowanie do&nbsp;strony root / web
+  // redirection to the root / web page
   server.on("/", HTTP_GET, [](AsyncWebServerRequest *request){
     request->send_P(200, "text/html", index_html, processor);
   });
@@ -43,23 +38,23 @@ void setupWiFi() {
 }
 
 void loopWiFi() {
-  // jeśli mamy połączenie WiFi
+  // if we have a WiFi connection
   if(WiFi.status()== WL_CONNECTED){
     WiFiClient client;
     HTTPClient http;
     
-    http.begin(client, serverName); // rozpoczęcie zapytania
-    http.addHeader("Content-Type", "application/x-www-form-urlencoded"); // nadanie nagłówka
+    http.begin(client, serverName); // starting the request
+    http.addHeader("Content-Type", "application/x-www-form-urlencoded"); // creating a header
     
-    // przygotowanie zapytania HTTP 
+    // preparing an HTTP request
     String httpRequestData = "api_key=" + apiKeyValue + "&value1=" + temperatureC
                            + "&value2=" + temperature + "&value3=" + humidity + "";
 
-    http.POST(httpRequestData); // wysłanie zapytania
-    http.end(); // zwolnienie zasobów
+    http.POST(httpRequestData); // sending request
+    http.end(); // release of resources
   }
 
-  // jeśli brak połączenia
+  // if no connection
   else {
     Serial.println("WiFi Disconnected");
   }

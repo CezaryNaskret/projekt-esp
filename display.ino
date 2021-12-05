@@ -10,8 +10,8 @@ void setupDisplay() {
   display.setTextColor(WHITE);
 }
 
-void displayPrintTHM() {
-  // temperature
+void loopDisplay() {
+  // displaying data from the temperature sensor
   display.setCursor(0, 0);
   display.print("Temperatura: ");
   display.print(temperatureC);
@@ -20,7 +20,7 @@ void displayPrintTHM() {
   display.write(167);
   display.println("C");
 
-  // humidity
+  // display of data from the humidity sensor
   display.print("Temperatura: ");
   display.print(temperature);
   display.print(" ");
@@ -31,7 +31,7 @@ void displayPrintTHM() {
   display.print(humidity);
   display.println("%");
 
-  // move
+  // displaying data from the motion detector
   if (isMotionDetected == HIGH)  {
     display.println("Wykryto ruch!");
   }
@@ -41,27 +41,4 @@ void displayPrintTHM() {
   
   display.display();
   display.clearDisplay();
-}
-
-// -------- wypisanie danych z czujników do monitora szeregowego
-
-void serialPrintTHM() {
-  // dane z czujnika temperatury
-  Serial.print("Zmierzona temperatura: ");
-  Serial.print(temperatureC);
-  Serial.println("°C");
-  
-  // dane z czujnika wilgotności
-  Serial.print("Zmierzona temperatura: ");
-  Serial.print(temperature);
-  Serial.println("°C");
-  Serial.print("Zmierzona wilgotność:  ");
-  Serial.print(humidity);
-  Serial.println("%");
-
-  // dane z czujnika ruchu
-  if (isMotionDetected == HIGH)
-    Serial.println("Wykryto ruch!");
-
-  Serial.println("----------------");
 }

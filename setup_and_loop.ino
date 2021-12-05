@@ -1,18 +1,16 @@
 void setup() {
-   //Ustawiamy prędkość dla monitora szeregowego
-  Serial.begin(115200);
-  
-  setupDisplay();
   setupBT();
+  setupUART();
+  setupDisplay();
   setupWiFi();
   setupMQTT();
 }
 
 void loop() {
   loopBT();
-//  serialPrintTHM();
-  displayPrintTHM();
+  loopUART();
+  loopDisplay();
   loopWiFi();
   loopMQTT();
-  delay(1000); // czekamy 1 sekund
+  delay(1000);
 }

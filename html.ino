@@ -1,4 +1,4 @@
-// Wygląd HTML
+// HTML
 const char index_html[] PROGMEM = R"rawliteral(
 <!DOCTYPE HTML><html>
 <head>
@@ -94,7 +94,7 @@ setInterval(function ( ) {
 </script>
 </html>)rawliteral";
 
-// Zastępuje placeholder wartościami DHT
+// function replacing placeholders with values from sensors
 String processor(const String& var){
   //Serial.println(var);
   if(var == "TEMPERATUREC"){

@@ -9,34 +9,34 @@ void setupBT() {
   SerialBT.begin("ESP32test"); //Bluetooth device name
 }
 
-// ramka wygląda tak: [liczba,liczba,liczba,tak/nie] przykład: [000.00,000.00,000.00,tak] 
+// the frame looks like this: [number,number,number,tak/nie] e.g.: [000.00,000.00,000.00,tak] 
 void loopBT() {
-  // odebranie ramki
+  // receiving the frame
   if (SerialBT.available()) {
-    // zmienna do której zapiszemy ramkę
+    // the variable to which the frame will be written
     String data = "";
     
-    // czekamy na rozpoczęcie ramki
+    // waiting for the frame to start
     while(SerialBT.read() != '[');
     
-    // odebranie 25 znaków
+    // receiving 25 characters
     for(int i = 0; i < 25; i++){
       char received = SerialBT.read();
       Serial.print(received);
       data = data+received;
     }
     
-    // zapisanie danych do zmiennych
+    // saving data to variables
     temperatureC = data.substring(0,5);
     temperature = data.substring(7,12);
     humidity = data.substring(14,19);
     isMotionDetected = data[21] == 't' ? 1 : 0;
   }
-//  Serial.println("---");
-  // pomijamy kolejne odebrane ramki, aby zawsze czytać tą najnowszą
+
+  // omitting the remaining received data
   while(SerialBT.available()){
     char received = SerialBT.read();
-//    Serial.print(received);
+    Serial.print(received);
   }
   Serial.println();
 }
