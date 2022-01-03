@@ -22,7 +22,7 @@ void loopBT() {
     // receiving 25 characters
     for(int i = 0; i < 25; i++){
       char received = SerialBT.read();
-      Serial.print(received);
+//      Serial.print(received);
       data = data+received;
     }
     
@@ -36,7 +36,7 @@ void loopBT() {
   // omitting the remaining received data
   while(SerialBT.available()){
     char received = SerialBT.read();
-    Serial.print(received);
+//    Serial.print(received);
   }
-  Serial.println();
+//  Serial.println();
 }

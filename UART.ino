@@ -8,16 +8,17 @@ void setupUART() {
   // start serial port
   Serial.begin(115200);
   EEPROM.begin(EEPROM_SIZE);
-  Serial.setTimeout(3000);
 
   // get ssid and password and save in EEPROM
   Serial.print("ssid: ");
   String str = Serial.readString();
-  if(str.length() > 0) writeStr(str.c_str(), 0, str.length());
-  
+  Serial.println(str);
+  if(str.length() > 0) {writeStr(str.c_str(), 0, str.length());
+
   Serial.print("pass: ");
   str = Serial.readString();
-  if(str.length() > 0) writeStr(str.c_str(), 32, str.length());
+  Serial.println(str);
+  if(str.length() > 0) writeStr(str.c_str(), 32, str.length());}
 
   // get ssid from EEPROM
   readStr(ssid, 0);

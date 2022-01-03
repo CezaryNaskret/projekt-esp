@@ -1,6 +1,6 @@
-// -------- wyświetlacz
+// -------- OLED display
 
-// definiujemy piny ESP, do których podłączony jest wyświetlacz
+// define the ESP pins to which the display is connected
 Adafruit_SH1106 display(21, 22);
 
 void setupDisplay() {

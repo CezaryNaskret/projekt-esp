@@ -6,18 +6,18 @@
 #define DHT11_PIN 1
 #define PIR_PIN 2 
 
-OneWire oneWire(0); // komunikujemy, że będziemy korzysać z interfejsu OneWire na pinie 4
-DallasTemperature tempSensor (&oneWire); // komunikujemy, że czujnik DS18B20 będzie wykorzystywał interfejs OneWire
-dht DHT; // obiekt do obsługi czujnika wilgotności DHT11
+OneWire oneWire(0); // declaration that we will be using the OneWire interface on pin 0
+DallasTemperature tempSensor (&oneWire); // declaration that the DS18B20 sensor will use the OneWire interface
+dht DHT; // object to operate the DHT11 humidity sensor
 
 void setup() {
-  // rozpoczęcie komunikacji przez BT
+  // start of communication via BT
   SerialInit(PB4  , 9600);
 
-  // rozpoczęcie pracy czujnika temperatury DS18B20
+  // starts of DS18B20 temperature sensor
   tempSensor.begin();
   
-  // deklarujemy pin, do którego podłączony jest czujnik ruchu PIR HC-SR501, jako INPUT
+  // declare the pin to which the HC-SR501 PIR motion sensor is connected as INPUT
   pinMode(PIR_PIN, INPUT);
 }
 
@@ -29,11 +29,11 @@ float newHumidity = 0;
 char str[26];
 
 void loop() {
-  // pobranie danych z czujnika temperatury
+  // getting data from the temperature sensor
   tempSensor.requestTemperatures();
   temperatureC = tempSensor.getTempCByIndex(0);
 
-  // pobranie danych z czujnika wilgotności
+  // getting data from the humidity sensor
   DHT.read11(DHT11_PIN);
   temperature = DHT.temperature;
   humidity = DHT.humidity;
@@ -43,7 +43,7 @@ void loop() {
     newHumidity = humidity;
   }
 
-  // wysłanie odczytu z czujników przez BT
+  // sending data from sensors via BT
   str[0] = '[';
   dtostrf(temperatureC, 6, 2, str+1); str[7] = ',';
   dtostrf(newTemperature, 6, 2, str+8); str[14] = ',';
